@@ -9,8 +9,8 @@
 #include <sdkhooks>
 #include <sdktools>
 #include <clientprefs>
-#tryinclude <morecolors>
-#tryinclude <entWatch>
+#include <morecolors>
+#include <entWatch>
 
 #define PLUGIN_VERSION "3.0.3"
 
@@ -83,7 +83,7 @@ new bool:G_bConfigLoaded     = false;
 public Plugin:myinfo =
 {
 	name         = "entWatch",
-	author       = "Prometheum & zaCade",
+	author       = "Prometheum & zaCade, edits by Jargon",
 	description  = "Notify players about entity interactions.",
 	version      = PLUGIN_VERSION,
 	url          = "https://github.com/zaCade/entWatch"
@@ -239,7 +239,7 @@ public OnClientDisconnect(client)
 				if (entArray[index][ent_chat])
 				{
 					new String:buffer_steamid[32];
-					GetClientAuthString(client, buffer_steamid, sizeof(buffer_steamid));
+					GetClientAuthId(client, AuthId_Steam2, buffer_steamid, sizeof(buffer_steamid));
 					ReplaceString(buffer_steamid, sizeof(buffer_steamid), "STEAM_", "", true);
 					
 					for (new ply = 1; ply <= MaxClients; ply++)
@@ -286,7 +286,7 @@ public Action:Event_PlayerDeath(Handle:event, const String:name[], bool:dontBroa
 				if (entArray[index][ent_chat])
 				{
 					new String:buffer_steamid[32];
-					GetClientAuthString(client, buffer_steamid, sizeof(buffer_steamid));
+					GetClientAuthId(client, AuthId_Steam2, buffer_steamid, sizeof(buffer_steamid));
 					ReplaceString(buffer_steamid, sizeof(buffer_steamid), "STEAM_", "", true);
 					
 					for (new ply = 1; ply <= MaxClients; ply++)
@@ -323,7 +323,7 @@ public Action:OnWeaponEquip(client, weapon)
 					if (entArray[index][ent_chat])
 					{
 						new String:buffer_steamid[32];
-						GetClientAuthString(client, buffer_steamid, sizeof(buffer_steamid));
+						GetClientAuthId(client, AuthId_Steam2, buffer_steamid, sizeof(buffer_steamid));
 						ReplaceString(buffer_steamid, sizeof(buffer_steamid), "STEAM_", "", true);
 						
 						for (new ply = 1; ply <= MaxClients; ply++)
@@ -363,7 +363,7 @@ public Action:OnWeaponDrop(client, weapon)
 					if (entArray[index][ent_chat])
 					{
 						new String:buffer_steamid[32];
-						GetClientAuthString(client, buffer_steamid, sizeof(buffer_steamid));
+						GetClientAuthId(client, AuthId_Steam2, buffer_steamid, sizeof(buffer_steamid));
 						ReplaceString(buffer_steamid, sizeof(buffer_steamid), "STEAM_", "", true);
 						
 						for (new ply = 1; ply <= MaxClients; ply++)
@@ -459,7 +459,7 @@ public Action:OnButtonUse(button, activator, caller, UseType:type, Float:value)
 					DispatchKeyValue(activator, "targetname", entArray[index][ent_filtername]);
 				
 				new String:buffer_steamid[32];
-				GetClientAuthString(activator, buffer_steamid, sizeof(buffer_steamid));
+				GetClientAuthId(activator, AuthId_Steam2, buffer_steamid, sizeof(buffer_steamid));
 				ReplaceString(buffer_steamid, sizeof(buffer_steamid), "STEAM_", "", true);
 				
 				if (entArray[index][ent_mode] == 1)
